@@ -1,6 +1,4 @@
 import tkinter as tk
-import statistical_indicators
-import analytical_indicators
 
 
 class InputFrame(tk.LabelFrame):
@@ -10,6 +8,7 @@ class InputFrame(tk.LabelFrame):
     def __init__(self, root, c_spec=True):
         super().__init__(root)
         self.configure(text="Input")
+        self.c_spec = c_spec
 
         tk.Label(self, text="Indicator a", width=self.width).grid(row=0, column=0, padx=5, pady=5)
         tk.Label(self, text="Indicator b", width=self.width).grid(row=0, column=1, padx=5, pady=5)
@@ -17,7 +16,7 @@ class InputFrame(tk.LabelFrame):
         self.a_field.grid(row=1, column=0, padx=5, pady=5)
         self.b_field = tk.Entry(self, width=self.width)
         self.b_field.grid(row=1, column=1, padx=5, pady=5)
-        if c_spec:
+        if self.c_spec:
             tk.Label(self, text="Indicator c", width=self.width).grid(row=4, column=0, padx=5, pady=5)
             self.c_field = tk.Entry(self, width=self.width)
             self.c_field.grid(row=5, column=0, padx=5, pady=5)
@@ -29,7 +28,24 @@ class InputFrame(tk.LabelFrame):
             self.kc_field = tk.Entry(self, width=self.width)
             self.kc_field.grid(row=5, column=1, padx=5, pady=5)
 
-        tk.Button(self, text="Calculate").grid(row=6, column=0, columnspan=3, padx=5, pady=5)
+        self.confirm = tk.Button(self, text="Calculate")
+        self.confirm.grid(row=6, column=0, columnspan=3, padx=5, pady=5)
+
+    def get_data(self):
+        """
+        Method returns data from fields
+        :return: data
+        """
+        if self.c_spec:
+            return {"a": self.a_field.get(),
+                    "b": self.b_field.get(),
+                    "c": self.c_field.get()}
+        else:
+            return {"a": self.a_field.get(),
+                    "b": self.b_field.get(),
+                    "c_avg": self.c_avg_field.get(),
+                    "kc": self.kc_field.get()}
+
 
 
 if __name__ == '__main__':
