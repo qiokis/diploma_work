@@ -2,6 +2,9 @@ import tkinter as tk
 
 
 class InputFrame(tk.LabelFrame):
+    """
+    Frame with entry fields for input data
+    """
 
     width = 20
 
@@ -45,10 +48,3 @@ class InputFrame(tk.LabelFrame):
                     "b": self.b_field.get(),
                     "c_avg": self.c_avg_field.get(),
                     "kc": self.kc_field.get()}
-
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    InputFrame(root, False).pack()
-    root.mainloop()
