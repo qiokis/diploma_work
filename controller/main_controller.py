@@ -39,7 +39,8 @@ class MainController:
         if is_valid:
             if state:
                 # Left panel (c is specified)
-                values = {key: float(value) for key, value in self.gui_comp.input_left.get_data().items()}
+                values = self.validator.comma_replace(self.gui_comp.input_left.get_data())
+                values = {key: float(value) for key, value in values.items()}
                 self.calculator.data_entry(values["a"], values["b"], values["c"], gamma=0.9)
                 self.calculator.calculate_statistical()
                 self.calculator.calculate_analytical()
@@ -47,7 +48,8 @@ class MainController:
                 self.gui_comp.left_analyt.set_data(self.calculator.get_indicators())
             else:
                 # Right panel (c is not specified)
-                values = {key: float(value) for key, value in self.gui_comp.input_right.get_data().items()}
+                values = self.validator.comma_replace(self.gui_comp.input_right.get_data())
+                values = {key: float(value) for key, value in values.items()}
                 self.calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"], kc=values["kc"], gamma=0.9)
                 self.calculator.calculate_statistical()
                 self.gui_comp.right_stat.set_data(self.calculator.get_indicators())

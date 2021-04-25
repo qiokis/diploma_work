@@ -25,3 +25,9 @@ class Validator:
             mb.showerror("Error", self.result)
             return False
         return True
+
+    def comma_replace(self, values: dict):
+        for key, value in values.items():
+            if value.count(","):
+                values[key] = value.replace(",", ".")
+        return values
