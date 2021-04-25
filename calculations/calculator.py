@@ -1,14 +1,14 @@
 import math
-import indicators
-import selection
+from calculations.indicators import Indicators
+from calculations.selection import Selection
 
 
 class Calculator:
     """
     Class contains methods for calculate indicators
     """
-    select: selection.Selection
-    indicator = indicators.Indicators()
+    select: Selection
+    indicator = Indicators()
 
     def data_entry(self, a, b, c, c_avg, kc, gamma, n):
         self.a = a
@@ -17,7 +17,7 @@ class Calculator:
         self.c_avg = c_avg
         self.kc = kc
         self.gamma = gamma
-        self.select = selection.Selection(self.a, self.b, self.c, self.c_avg, self.kc, n)
+        self.select = Selection(self.a, self.b, self.c, self.c_avg, self.kc, n)
         self.indicator.clear()
 
     def to_fixed(self, number, digits=4):
