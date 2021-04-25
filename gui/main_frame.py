@@ -5,6 +5,9 @@ from gui.analytical_indicators import AnalyticalIndicators
 
 
 class MainFrame(tk.Frame):
+    """
+    Main frame which combines all functional frames and gives acces to them
+    """
 
     def __init__(self, root):
         super().__init__(root)
@@ -26,11 +29,3 @@ class MainFrame(tk.Frame):
         self.input_right.pack(pady=5)
         self.right_stat = StatisticalIndicators(self.c_not_spec_frame)
         self.right_stat.pack(pady=5)
-
-
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    MainFrame(root).pack()
-    root.mainloop()
