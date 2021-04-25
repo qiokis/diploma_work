@@ -10,7 +10,7 @@ class Calculator:
     select: Selection
     indicator = Indicators()
 
-    def data_entry(self, a, b, c, c_avg, kc, gamma, n):
+    def data_entry(self, a, b, c=None, c_avg=None, kc=None, gamma=None, n=10000):
         self.a = a
         self.b = b
         self.c = c
@@ -34,19 +34,20 @@ class Calculator:
         Method calculates and save analytical indicators for model
         :return:
         """
-        # Math expectation | Математическое ожидание
-        expected_value = self.to_fixed((self.a + self.b + self.c) / 3)
-        # Dispersion | Дисперсия
-        dispersion = self.to_fixed((self.a ** 2 + self.b ** 2 + self.c ** 2 - self.a * self.b
-                                    - self.a * self.c - self.b * self.c) / 18)
-        # Standard deviation | Стандартное отклонение
-        deviation = self.to_fixed(math.sqrt(2 * (self.a ** 2 + self.b ** 2 + self.c ** 2
-                                                 - self.a * self.b - self.a * self.c - self.b * self.c)) / 6)
-        # Variation coefficient | Коэффициент вариации
-        var_coef = self.to_fixed(deviation / expected_value)
-        # X gamma | X гамма
-        x_gamma = self.to_fixed(self.a + math.sqrt((1 - self.gamma) * (self.b - self.a) * (self.c - self.a)))
-        self.indicator.set_analytical(expected_value, dispersion, deviation, var_coef, x_gamma)
+        if self.c:
+            # Math expectation | Математическое ожидание
+            expected_value = self.to_fixed((self.a + self.b + self.c) / 3)
+            # Dispersion | Дисперсия
+            dispersion = self.to_fixed((self.a ** 2 + self.b ** 2 + self.c ** 2 - self.a * self.b
+                                        - self.a * self.c - self.b * self.c) / 18)
+            # Standard deviation | Стандартное отклонение
+            deviation = self.to_fixed(math.sqrt(2 * (self.a ** 2 + self.b ** 2 + self.c ** 2
+                                                     - self.a * self.b - self.a * self.c - self.b * self.c)) / 6)
+            # Variation coefficient | Коэффициент вариации
+            var_coef = self.to_fixed(deviation / expected_value)
+            # X gamma | X гамма
+            x_gamma = self.to_fixed(self.a + math.sqrt((1 - self.gamma) * (self.b - self.a) * (self.c - self.a)))
+            self.indicator.set_analytical(expected_value, dispersion, deviation, var_coef, x_gamma)
 
     def calculate_statistical(self):
         """
@@ -62,11 +63,11 @@ class Calculator:
         s = self.to_fixed(math.sqrt(dispersion))
         # Дельта
         delta = self.to_fixed((1.96 * s) / math.sqrt(n))
-        self.indicator.set_statistical(r1, dispersion, s, delta)
+        self.indicator.set_statistical(self.to_fixed(r1), dispersion, s, delta)
 
     def get_indicators(self):
         """
         Method returns indicators
         :return: indicators
         """
-        return self.indicator
+        return self.indicator.indicators
