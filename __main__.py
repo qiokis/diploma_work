@@ -1,4 +1,4 @@
-__author__ = "qioki"
+__author__ = "qiokis"
 
 if __name__ == '__main__':
     import tkinter as tk
