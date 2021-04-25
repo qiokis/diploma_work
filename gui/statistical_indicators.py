@@ -2,6 +2,9 @@ import tkinter as tk
 
 
 class StatisticalIndicators(tk.LabelFrame):
+    """
+    Frame for statistical indicators
+    """
 
     width = 20
 
@@ -21,3 +24,14 @@ class StatisticalIndicators(tk.LabelFrame):
         self.stand_dev.grid(row=11, column=0, padx=5, pady=5)
         self.delta = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
         self.delta.grid(row=11, column=1, padx=5, pady=5)
+
+    def set_data(self, values: dict):
+        """
+        Method records data to frame
+        :param values: data from calculator
+        :return:
+        """
+        self.math_exp["text"] = values["Statistical"]["Math expectation"]
+        self.dispersion["text"] = values["Statistical"]["Dispersion"]
+        self.stand_dev["text"] = values["Statistical"]["Standard Deviation"]
+        self.delta["text"] = values["Statistical"]["Delta"]
