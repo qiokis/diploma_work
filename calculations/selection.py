@@ -19,9 +19,9 @@ class Selection:
 
     def generate_selection(self):
         """
-                Method generates selection
-                :return:
-                """
+        Method generates selection
+        :return:
+        """
         self.selection.clear()
         # Накопление x-ов
         r1 = 0
