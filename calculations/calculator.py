@@ -7,17 +7,18 @@ class Calculator:
     """
     Class contains methods for calculate indicators
     """
-
+    select: selection.Selection
     indicator = indicators.Indicators()
 
-    def __init__(self, a, b, c, c_avg, kc, gamma):
+    def data_entry(self, a, b, c, c_avg, kc, gamma, n):
         self.a = a
         self.b = b
         self.c = c
         self.c_avg = c_avg
         self.kc = kc
         self.gamma = gamma
-        self.select = selection.Selection(self.a, self.b, self.c, self.c_avg, self.kc, 10000)
+        self.select = selection.Selection(self.a, self.b, self.c, self.c_avg, self.kc, n)
+        self.indicator.clear()
 
     def to_fixed(self, number, digits=4):
         """
@@ -30,9 +31,9 @@ class Calculator:
 
     def calculate_analytical(self):
         """
-                Method calculates and save analytical indicators for model
-                :return:
-                """
+        Method calculates and save analytical indicators for model
+        :return:
+        """
         # Math expectation | Математическое ожидание
         expected_value = self.to_fixed((self.a + self.b + self.c) / 3)
         # Dispersion | Дисперсия
@@ -63,6 +64,9 @@ class Calculator:
         delta = self.to_fixed((1.96 * s) / math.sqrt(n))
         self.indicator.set_statistical(r1, dispersion, s, delta)
 
-if __name__ == '__main__':
-    c = Calculator(1, 12, 5, 0, 0, 0)
-    c.calculate_statistical()
+    def get_indicators(self):
+        """
+        Method returns indicators
+        :return: indicators
+        """
+        return self.indicator
