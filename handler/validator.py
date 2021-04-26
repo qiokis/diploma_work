@@ -1,5 +1,4 @@
 import re
-from tkinter import messagebox as mb
 
 
 class Validator:
@@ -22,6 +21,11 @@ class Validator:
             if not re.match(self.regex, value):
                 self.result += f"Incorrect indicator {key}: {value}\n"
         if self.result:
-            mb.showerror("Error", self.result)
             return False
         return True
+
+    def comma_replace(self, values: dict):
+        for key, value in values.items():
+            if value.count(","):
+                values[key] = value.replace(",", ".")
+        return values

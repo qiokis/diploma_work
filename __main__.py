@@ -2,11 +2,9 @@ __author__ = "qiokis"
 
 if __name__ == '__main__':
     import tkinter as tk
-    from gui.main_frame import MainFrame
+    from gui.input_frame import InputFrame
     from controller.main_controller import MainController
 
     root = tk.Tk()
-    m = MainFrame(root)
-    m.pack()
-    MainController(m)
+    MainController(root)
     root.mainloop()
