@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-class InputFrame(tk.LabelFrame):
+class InputWidget(tk.LabelFrame):
     """
     Frame with entry fields for input data
     """
