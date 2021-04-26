@@ -1,4 +1,5 @@
 import tkinter as tk
+import options as o
 
 
 class AnalyticalIndicators(tk.LabelFrame):
@@ -6,7 +7,7 @@ class AnalyticalIndicators(tk.LabelFrame):
     Frame for analytical indicators
     """
 
-    width = 20
+    width = o.FIELD_WIDTH
 
     def __init__(self, root):
         super().__init__(root)

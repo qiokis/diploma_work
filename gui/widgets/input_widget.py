@@ -1,4 +1,5 @@
 import tkinter as tk
+import options as o
 
 
 class InputWidget(tk.LabelFrame):
@@ -6,7 +7,7 @@ class InputWidget(tk.LabelFrame):
     Frame with entry fields for input data
     """
 
-    width = 20
+    width = o.FIELD_WIDTH
 
     def __init__(self, root, c_spec=True):
         super().__init__(root)
