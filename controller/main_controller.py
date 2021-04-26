@@ -3,6 +3,7 @@ from gui.output_frame import OutputFrame
 from calculations.calculator import Calculator
 from handler.validator import Validator
 from tkinter import messagebox as mb
+import options as o
 
 
 class MainController:
@@ -13,13 +14,18 @@ class MainController:
     def __init__(self, root):
 
         self.root = root
+        self.root.geometry(f"{o.WINDOW_WIDTH}x{o.WINDOWH_HEIGHT}")
         self.calculator = Calculator()
         self.validator = Validator()
 
         # InputFrame
         self.inp_frame = InputFrame(self.root)
         self.inp_frame.pack()
+        # OutputFrame
         self.out_frame = OutputFrame(self.root)
+        cmnd = lambda x=self.inp_frame: self.change_frame(x)
+        self.out_frame.to_input.configure(command=cmnd)
+
         self.current_frame = self.inp_frame
         cmnd = lambda x=self.inp_frame: self.validate_data(x)
         self.inp_frame.confirm.configure(command=cmnd)
@@ -65,7 +71,11 @@ class MainController:
         values = {key: float(value) for key, value in values.items()}
         self.calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"])
         self.calculator.calculate_statistical()
+        # set data to statistical indicators widget (c is specified) on output frame
+        self.out_frame.left_stat_ind.set_data(self.calculator.indicator.indicators)
         self.calculator.calculate_analytical()
+        # set data to analytical indicators widget on output frame
+        self.out_frame.analyt_ind.set_data(self.calculator.indicator.indicators)
 
     def calculate_right_widget(self, gui_comp):
         """
@@ -79,6 +89,8 @@ class MainController:
         self.calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"],
                                    kc=values["kc"], gamma=values["gamma"])
         self.calculator.calculate_statistical()
+        # set data to statistical indicators widget (c is not specified) on output frame
+        self.out_frame.right_stat_ind.set_data(self.calculator.indicator.indicators)
 
     def calculate_data(self, ans, gui_comp, valid):
         """
@@ -93,6 +105,7 @@ class MainController:
             self.calculate_left_widget(gui_comp)
             # Right panel (c is not specified)
             self.calculate_right_widget(gui_comp)
+
         elif ans == 1:
             if valid["left"]:
                 # Left panel (c is specified)
