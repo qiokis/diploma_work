@@ -26,8 +26,20 @@ class OutputFrame(tk.Frame):
         self.right_stat_ind = StatisticalIndicators(self.c_not_spec_frame)
         self.right_stat_ind.pack(padx=10, pady=10)
 
-        self.to_input = tk.Button(self, text="Back to input", width=o.FIELD_WIDTH)
-        self.to_input.pack(padx=5, pady=5, side=tk.BOTTOM)
-        self.to_chart = tk.Button(self, text="To chart", width=o.FIELD_WIDTH)
-        self.to_chart.pack(padx=5, pady=5, side=tk.BOTTOM)
+        self.buttons = tk.Frame(self)
+        self.buttons.pack(fill=tk.Y, expand=True, anchor=tk.S)
+
+        self.to_input = tk.Button(self.buttons, text="Back to input", width=o.FIELD_WIDTH)
+        self.to_input.pack(padx=5, pady=5, side=tk.LEFT)
+        self.to_chart_counts = tk.Button(self.buttons, text="To chart counts", width=o.FIELD_WIDTH)
+        self.to_chart_counts.pack(padx=5, pady=5, side=tk.LEFT)
+        self.to_chart_k = tk.Button(self.buttons, text="To chart k", width=o.FIELD_WIDTH)
+        self.to_chart_k.pack(padx=5, pady=5, side=tk.LEFT)
+        self.to_chart_m = tk.Button(self.buttons, text="To chart m", width=o.FIELD_WIDTH)
+        self.to_chart_m.pack(padx=5, pady=5, side=tk.LEFT)
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    OutputFrame(root).pack()
+    root.mainloop()
 
