@@ -1,4 +1,5 @@
 import tkinter as tk
+import options as o
 from gui.widgets.analytical_indicators import AnalyticalIndicators
 from gui.widgets.statistical_indicators import StatisticalIndicators
 
@@ -25,6 +26,8 @@ class OutputFrame(tk.Frame):
         self.right_stat_ind = StatisticalIndicators(self.c_not_spec_frame)
         self.right_stat_ind.pack(padx=10, pady=10)
 
-        self.to_input = tk.Button(self, text="Back to input")
+        self.to_input = tk.Button(self, text="Back to input", width=o.FIELD_WIDTH)
         self.to_input.pack(padx=5, pady=5, side=tk.BOTTOM)
+        self.to_chart = tk.Button(self, text="To chart", width=o.FIELD_WIDTH)
+        self.to_chart.pack(padx=5, pady=5, side=tk.BOTTOM)
 
