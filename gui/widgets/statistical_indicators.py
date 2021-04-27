@@ -36,3 +36,9 @@ class StatisticalIndicators(tk.LabelFrame):
         self.dispersion["text"] = values["Statistical"]["Dispersion"]
         self.stand_dev["text"] = values["Statistical"]["Standard Deviation"]
         self.delta["text"] = values["Statistical"]["Delta"]
+
+    def clear(self):
+        self.math_exp["text"] = ""
+        self.dispersion["text"] = ""
+        self.stand_dev["text"] = ""
+        self.delta["text"] = ""
