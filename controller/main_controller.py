@@ -2,14 +2,18 @@ from gui.input_frame import InputFrame
 from gui.output_frame import OutputFrame
 from calculations.calculator import Calculator
 from handler.validator import Validator
-from tkinter import messagebox as mb
 import options as o
+from gui.widgets.chart_widget import ChartWidget
+
+from tkinter import messagebox as mb
 
 
 class MainController:
     """
     Class mediator between gui, calculator logic and handler
     """
+    # Количество интервалов
+    J = 44
 
     def __init__(self, root):
 
@@ -21,14 +25,21 @@ class MainController:
         # InputFrame
         self.inp_frame = InputFrame(self.root)
         self.inp_frame.pack()
-        # OutputFrame
-        self.out_frame = OutputFrame(self.root)
-        cmnd = lambda x=self.inp_frame: self.change_frame(x)
-        self.out_frame.to_input.configure(command=cmnd)
 
         self.current_frame = self.inp_frame
         cmnd = lambda x=self.inp_frame: self.validate_data(x)
         self.inp_frame.confirm.configure(command=cmnd)
+
+        # Left = c is specified
+        self.left_arrays = dict()
+        # Right = c is not specified
+        self.right_arrays = dict()
+
+        # OutputFrame
+        self.out_frame = OutputFrame(self.root)
+        cmnd = lambda x=self.inp_frame: self.change_frame(x)
+        self.out_frame.to_input.configure(command=cmnd)
+        self.out_frame.to_chart.configure(command=self.create_chart)
 
     def change_frame(self, frame):
         self.current_frame.pack_forget()
@@ -71,6 +82,7 @@ class MainController:
         values = {key: float(value) for key, value in values.items()}
         self.calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"])
         self.calculator.calculate_statistical()
+        self.left_arrays = self.calculator.select.create_arrays(self.J)
         # set data to statistical indicators widget (c is specified) on output frame
         self.out_frame.left_stat_ind.set_data(self.calculator.indicator.indicators)
         self.calculator.calculate_analytical()
@@ -89,6 +101,7 @@ class MainController:
         self.calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"],
                                    kc=values["kc"], gamma=values["gamma"])
         self.calculator.calculate_statistical()
+        self.right_arrays = self.calculator.select.create_arrays(self.J)
         # set data to statistical indicators widget (c is not specified) on output frame
         self.out_frame.right_stat_ind.set_data(self.calculator.indicator.indicators)
 
@@ -114,6 +127,10 @@ class MainController:
                 # Right panel (c is not specified)
                 self.calculate_right_widget(gui_comp)
         self.change_frame(self.out_frame)
+
+    def create_chart(self):
+        ChartWidget(self.root, (self.left_arrays["counts"], self.right_arrays["counts"]),
+                    ({"label": "c is specified"}, {"label": "c is not specified"}))
 
     def set_data(self, gui_comp):
         pass
