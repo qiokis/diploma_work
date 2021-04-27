@@ -16,6 +16,7 @@ class Selection:
         self.c_avg = c_avg
         self.kc = kc
         self.n = n
+        self.x_array = list()
 
     def generate_selection(self):
         """
@@ -46,3 +47,37 @@ class Selection:
             r2 += temp ** 2
         r1 /= self.n
         return r1, r2
+
+    def create_arrays(self, j):
+        # Шаг
+        lamb = (self.b - self.a) / j
+
+        self.x_array.append(self.a)
+        # Содержит j подмассивов со значениями от X[j] до X[j+1]
+        uzli = [[] for _ in range(j)]
+
+        for i in range(j):
+            self.x_array.append(self.x_array[i] + lamb)
+
+        for value in self.selection:
+            index = math.floor((value - self.a) / lamb)
+            uzli[index].append(value)
+
+        # Сортировка подмасивов (можно убрать)
+        for i in range(len(uzli)):
+            uzli[i] = sorted(uzli[i])
+
+        # Массив содержащий частоты
+        counts = []
+        # Подсчет частот
+        for i, vals in enumerate(uzli):
+            counts.append(len(vals))
+
+        m = []
+        k = []
+        for i in range(j):
+            m.append(sum([counts[j] for j in range(i + 1)]))
+            m[i] /= self.n
+            k.append(1 - m[i])
+
+        return {"uzli": uzli, "counts": counts, "m": m, "k": k}
