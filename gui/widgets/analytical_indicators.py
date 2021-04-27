@@ -41,11 +41,4 @@ class AnalyticalIndicators(tk.LabelFrame):
         self.var_coef["text"] = values["Analytical"]["Variation coefficient"]
         self.gamma["text"] = values["Analytical"]["X gamma"]
 
-    def clear(self):
-        self.math_exp["text"] = ""
-        self.dispersion["text"] = ""
-        self.stand_dev["text"] = ""
-        self.var_coef["text"] = ""
-        self.gamma["text"] = ""
-
 
