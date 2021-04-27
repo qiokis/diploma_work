@@ -27,7 +27,7 @@ class OutputFrame(tk.Frame):
         self.right_stat_ind.pack(padx=10, pady=10)
 
         self.buttons = tk.Frame(self)
-        self.buttons.pack(fill=tk.Y, expand=True, anchor=tk.S)
+        self.buttons.pack(side=tk.BOTTOM)
 
         self.to_input = tk.Button(self.buttons, text="Back to input", width=o.FIELD_WIDTH)
         self.to_input.pack(padx=5, pady=5, side=tk.LEFT)
@@ -38,8 +38,15 @@ class OutputFrame(tk.Frame):
         self.to_chart_m = tk.Button(self.buttons, text="To chart m", width=o.FIELD_WIDTH)
         self.to_chart_m.pack(padx=5, pady=5, side=tk.LEFT)
 
+    def clear(self):
+        self.left_stat_ind.clear()
+        self.analyt_ind.clear()
+        self.right_stat_ind.clear()
+# TODO Для статистическических расчетов вывсети доверительный интервал, Xr, Xgamma
+# TODO кнопки привязать к низу окна
 if __name__ == '__main__':
     root = tk.Tk()
+    root.geometry(f"{o.WINDOW_WIDTH}x{o.WINDOWH_HEIGHT}")
     OutputFrame(root).pack()
     root.mainloop()
 
