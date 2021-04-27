@@ -31,20 +31,35 @@ class MainController:
         self.inp_frame.confirm.configure(command=cmnd)
 
         # Left = c is specified
-        self.left_arrays = dict()
+        self.left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
         # Right = c is not specified
-        self.right_arrays = dict()
+        self.right_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
 
         # OutputFrame
         self.out_frame = OutputFrame(self.root)
         cmnd = lambda x=self.inp_frame: self.change_frame(x)
-        self.out_frame.to_input.configure(command=cmnd)
-        self.out_frame.to_chart.configure(command=self.create_chart)
+        self.out_frame.to_input.configure(command=self.change_to_input)
+        cmnd = lambda x="counts": self.create_chart(x)
+        self.out_frame.to_chart_counts.configure(command=cmnd)
+        cmnd = lambda x="k": self.create_chart(x)
+        self.out_frame.to_chart_k.configure(command=cmnd)
+        cmnd = lambda x="m": self.create_chart(x)
+        self.out_frame.to_chart_m.configure(command=cmnd)
 
     def change_frame(self, frame):
         self.current_frame.pack_forget()
         self.current_frame = frame
         self.current_frame.pack()
+
+    def change_to_input(self):
+        self.current_frame.pack_forget()
+        self.current_frame = self.inp_frame
+        self.current_frame.pack()
+        self.out_frame.clear()
+        # Left = c is specified
+        self.left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
+        # Right = c is not specified
+        self.right_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
 
     def validate_data(self, gui_comp):
         """
@@ -106,6 +121,7 @@ class MainController:
         self.out_frame.right_stat_ind.set_data(self.calculator.indicator.indicators)
 
     def calculate_data(self, ans, gui_comp, valid):
+        # TODO можно ans не использовать
         """
         Method delegate calculations to Calculator and send them into gui
         :param valid: states of validation for both widgets
@@ -128,8 +144,8 @@ class MainController:
                 self.calculate_right_widget(gui_comp)
         self.change_frame(self.out_frame)
 
-    def create_chart(self):
-        ChartWidget(self.root, (self.left_arrays["counts"], self.right_arrays["counts"]),
+    def create_chart(self, chart_type):
+        ChartWidget(self.root, (self.left_arrays[chart_type], self.right_arrays[chart_type]),
                     ({"label": "c is specified"}, {"label": "c is not specified"}))
 
     def set_data(self, gui_comp):
