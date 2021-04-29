@@ -6,7 +6,6 @@ class StatisticalIndicators(tk.LabelFrame):
     """
     Frame for statistical indicators
     """
-    # TODO добавить Xr, Доверительный интервал, Xrgamma
     width = o.FIELD_WIDTH
 
     def __init__(self, root):
