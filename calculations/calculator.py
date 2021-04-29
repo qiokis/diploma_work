@@ -57,13 +57,16 @@ class Calculator:
         n = 10000
         # r1 - Математическое ожидание
         r1, r2 = self.select.generate_selection()
+        r1 = self.to_fixed(r1)
         # Дисперсия
         dispersion = self.to_fixed((r2 - n * r1 * r1) / (n - 1))
         # Стандартное отклонение
         s = self.to_fixed(math.sqrt(dispersion))
         # Дельта
         delta = self.to_fixed((1.96 * s) / math.sqrt(n))
-        self.indicator.set_statistical(self.to_fixed(r1), dispersion, s, delta)
+        # Доверительный интервал
+        conf_int = f"{self.to_fixed(r1 - delta)} - {self.to_fixed(r1 + delta)}"
+        self.indicator.set_statistical(r1, dispersion, s, conf_int)
 
     def get_indicators(self):
         """

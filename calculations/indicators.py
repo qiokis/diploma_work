@@ -11,9 +11,9 @@ class Indicators:
                   "Statistical": {"Math expectation": None,
                                   "Dispersion": None,
                                   "Standard Deviation": None,
-                                  "Delta": None}}
+                                  "Conf int": None}}
 
-    def set_statistical(self, math_exp, disp, stand_dev, delta):
+    def set_statistical(self, math_exp, disp, stand_dev, conf_int):
         """
         Method save values to dict
         :param math_exp: math expectation
@@ -25,7 +25,7 @@ class Indicators:
         self.indicators["Statistical"]["Math expectation"] = math_exp
         self.indicators["Statistical"]["Dispersion"] = disp
         self.indicators["Statistical"]["Standard Deviation"] = stand_dev
-        self.indicators["Statistical"]["Delta"] = delta
+        self.indicators["Statistical"]["Conf int"] = conf_int
 
     def set_analytical(self, math_exp, disp, stand_dev, var_coef, gamma):
         """
