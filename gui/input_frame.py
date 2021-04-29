@@ -1,4 +1,5 @@
 import tkinter as tk
+import options as o
 from gui.widgets.input_widget import InputWidget
 
 
@@ -22,5 +23,5 @@ class InputFrame(tk.Frame):
         self.input_right = InputWidget(self.c_not_spec_frame, False)
         self.input_right.pack(padx=10, pady=10)
 
-        self.confirm = tk.Button(self, text="Calculate")
+        self.confirm = tk.Button(self, text="Calculate", width=o.FIELD_WIDTH)
         self.confirm.pack(padx=5, pady=5)

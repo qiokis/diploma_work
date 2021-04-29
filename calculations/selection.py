@@ -16,6 +16,7 @@ class Selection:
         self.c_avg = c_avg
         self.kc = kc
         self.n = n
+        self.x_array = list()
 
     def generate_selection(self):
         """
@@ -46,3 +47,52 @@ class Selection:
             r2 += temp ** 2
         r1 /= self.n
         return r1, r2
+
+    def create_arrays(self, j, gamma):
+        # Шаг
+        lamb = (self.b - self.a) / j
+
+        result = dict()
+
+        self.x_array.append(self.a)
+        # Содержит j подмассивов со значениями от X[j] до X[j+1]
+        uzli = [[] for _ in range(j)]
+
+        for i in range(j):
+            self.x_array.append(self.x_array[i] + lamb)
+
+        for value in self.selection:
+            index = math.floor((value - self.a) / lamb)
+            uzli[index].append(value)
+
+        # Сортировка подмасивов (можно убрать)
+        for i in range(len(uzli)):
+            uzli[i] = sorted(uzli[i])
+
+        # Массив содержащий частоты
+        counts = []
+        # Подсчет частот
+        for i, vals in enumerate(uzli):
+            counts.append(len(vals))
+
+        m = []
+        k = []
+        for i in range(j):
+            m.append(sum([counts[j] for j in range(i + 1)]))
+            m[i] /= self.n
+            k.append(1 - m[i])
+        result.update({"uzli": uzli, "counts": counts, "m": m, "k": k})
+        result.update(self.define_xr_indicators(self.x_array, k, gamma, j))
+
+        return result
+
+    def define_xr_indicators(self, x_arr, k_arr, gamma, j):
+        xr = x_arr[0] + ((x_arr[j] - x_arr[0]) / j) * (0.5 + sum(k_arr[1:-1]))
+        index = 0
+        for key, value in enumerate(k_arr[1:-1]):
+            if gamma >= value:
+                index = key + 1
+                break
+        xr_gamma = x_arr[index - 1] + ((gamma - k_arr[index - 1]) / (k_arr[index] - k_arr[index - 1])) * \
+                   (j / (x_arr[j] - x_arr[0]))
+        return {"xr": xr, "xr_gamma": xr_gamma}
