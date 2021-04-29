@@ -91,7 +91,8 @@ class Selection:
         index = 0
         for key, value in enumerate(k_arr[1:-1]):
             if gamma >= value:
-                index = key
+                index = key + 1
+                break
         xr_gamma = x_arr[index - 1] + ((gamma - k_arr[index - 1]) / (k_arr[index] - k_arr[index - 1])) * \
-                   (j / (x_arr[index] - x_arr[0]))
+                   (j / (x_arr[j] - x_arr[0]))
         return {"xr": xr, "xr_gamma": xr_gamma}
