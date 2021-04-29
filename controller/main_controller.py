@@ -97,7 +97,11 @@ class MainController:
         values = {key: float(value) for key, value in values.items()}
         self.calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"])
         self.calculator.calculate_statistical()
-        self.left_arrays = self.calculator.select.create_arrays(self.J)
+        self.left_arrays = self.calculator.select.create_arrays(self.J, values["gamma"])
+        self.calculator.indicator.set_xrs({"xr": self.calculator.to_fixed(self.left_arrays["xr"]),
+                                           "xr_gamma": self.calculator.to_fixed(self.left_arrays["xr_gamma"])})
+
+
         # set data to statistical indicators widget (c is specified) on output frame
         self.out_frame.left_stat_ind.set_data(self.calculator.indicator.indicators)
         self.calculator.calculate_analytical()
@@ -116,7 +120,9 @@ class MainController:
         self.calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"],
                                    kc=values["kc"], gamma=values["gamma"])
         self.calculator.calculate_statistical()
-        self.right_arrays = self.calculator.select.create_arrays(self.J)
+        self.right_arrays = self.calculator.select.create_arrays(self.J, values["gamma"])
+        self.calculator.indicator.set_xrs({"xr": self.calculator.to_fixed(self.right_arrays["xr"]),
+                                           "xr_gamma": self.calculator.to_fixed(self.right_arrays["xr_gamma"])})
         # set data to statistical indicators widget (c is not specified) on output frame
         self.out_frame.right_stat_ind.set_data(self.calculator.indicator.indicators)
 
