@@ -11,16 +11,16 @@ class StatisticalIndicators(tk.LabelFrame):
 
     def __init__(self, root):
         super().__init__(root)
-        self.configure(text="Statistical")
+        self.configure(text="Статистика")
 
-        tk.Label(self, text="Math expectation", width=self.width).grid(row=8, column=0, padx=5, pady=5)
+        tk.Label(self, text="Мат. ожидание", width=self.width).grid(row=8, column=0, padx=5, pady=5)
         tk.Label(self, text="Xr", width=self.width).grid(row=8, column=1, padx=5, pady=5)
         self.math_exp = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
         self.math_exp.grid(row=9, column=0, padx=5, pady=5)
         self.xr = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
         self.xr.grid(row=9, column=1, padx=5, pady=5)
-        tk.Label(self, text="Standard deviation", width=self.width).grid(row=10, column=0, padx=5, pady=5)
-        tk.Label(self, text="Confidence interval", width=self.width).grid(row=10, column=1, padx=5, pady=5)
+        tk.Label(self, text="Станд. отклонение", width=self.width).grid(row=10, column=0, padx=5, pady=5)
+        tk.Label(self, text="Дов. интверал", width=self.width).grid(row=10, column=1, padx=5, pady=5)
         self.stand_dev = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
         self.stand_dev.grid(row=11, column=0, padx=5, pady=5)
         self.confidence_interval = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
