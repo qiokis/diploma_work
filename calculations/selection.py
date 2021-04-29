@@ -48,9 +48,11 @@ class Selection:
         r1 /= self.n
         return r1, r2
 
-    def create_arrays(self, j):
+    def create_arrays(self, j, gamma):
         # Шаг
         lamb = (self.b - self.a) / j
+
+        result = dict()
 
         self.x_array.append(self.a)
         # Содержит j подмассивов со значениями от X[j] до X[j+1]
@@ -79,5 +81,17 @@ class Selection:
             m.append(sum([counts[j] for j in range(i + 1)]))
             m[i] /= self.n
             k.append(1 - m[i])
+        result.update({"uzli": uzli, "counts": counts, "m": m, "k": k})
+        result.update(self.define_xr_indicators(self.x_array, k, gamma, j))
 
-        return {"uzli": uzli, "counts": counts, "m": m, "k": k}
+        return result
+
+    def define_xr_indicators(self, x_arr, k_arr, gamma, j):
+        xr = x_arr[0] + ((x_arr[j] - x_arr[0]) / j) * (0.5 + sum(k_arr[1:-1]))
+        index = 0
+        for key, value in enumerate(k_arr[1:-1]):
+            if gamma >= value:
+                index = key
+        xr_gamma = x_arr[index - 1] + ((gamma - k_arr[index - 1]) / (k_arr[index] - k_arr[index - 1])) * \
+                   (j / (x_arr[index] - x_arr[0]))
+        return {"xr": xr, "xr_gamma": xr_gamma}
