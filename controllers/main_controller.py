@@ -18,6 +18,7 @@ class MainController:
     def __init__(self, root):
 
         self.__root = root
+        self.__root.title("Оценка ПНРС")
         self.__root.geometry(f"{o.WINDOW_WIDTH}x{o.WINDOWH_HEIGHT}")
         self.__calculator = Calculator()
         self.__validator = Validator()
