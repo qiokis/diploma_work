@@ -10,6 +10,14 @@ class Calculator:
     select: Selection
     indicator = Indicators()
 
+    def __init__(self):
+        self.__a = 0
+        self.__b = 0
+        self.__c = 0
+        self.__c_avg = 0
+        self.__kc = 0
+        self.__gamma = 0
+
     def data_entry(self, a, b, c=None, c_avg=None, kc=None, gamma=None, n=10000):
         self.__a = a
         self.__b = b
