@@ -17,34 +17,34 @@ class MainController:
 
     def __init__(self, root):
 
-        self.root = root
-        self.root.geometry(f"{o.WINDOW_WIDTH}x{o.WINDOWH_HEIGHT}")
-        self.calculator = Calculator()
-        self.validator = Validator()
+        self.__root = root
+        self.__root.geometry(f"{o.WINDOW_WIDTH}x{o.WINDOWH_HEIGHT}")
+        self.__calculator = Calculator()
+        self.__validator = Validator()
 
         # InputFrame
-        self.inp_frame = InputFrame(self.root)
-        self.inp_frame.pack()
+        self.__inp_frame = InputFrame(self.__root)
+        self.__inp_frame.pack()
 
-        self.current_frame = self.inp_frame
-        cmnd = lambda x=self.inp_frame: self.validate_data(x)
-        self.inp_frame.confirm.configure(command=cmnd)
+        self.__current_frame = self.__inp_frame
+        cmnd = lambda x=self.__inp_frame: self.validate_data(x)
+        self.__inp_frame.confirm.configure(command=cmnd)
 
         # Left = c is specified
-        self.left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
+        self.__left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
         # Right = c is not specified
-        self.right_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
+        self.__right_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
 
         # OutputFrame
-        self.out_frame = OutputFrame(self.root)
-        cmnd = lambda x=self.inp_frame: self.change_frame(x)
-        self.out_frame.to_input.configure(command=self.change_to_input)
+        self.__out_frame = OutputFrame(self.__root)
+        cmnd = lambda x=self.__inp_frame: self.change_frame(x)
+        self.__out_frame.to_input.configure(command=self.change_to_input)
         cmnd = lambda x="counts": self.create_chart(x)
-        self.out_frame.to_chart_counts.configure(command=cmnd)
+        self.__out_frame.to_chart_counts.configure(command=cmnd)
         cmnd = lambda x="k": self.create_chart(x)
-        self.out_frame.to_chart_k.configure(command=cmnd)
+        self.__out_frame.to_chart_k.configure(command=cmnd)
         cmnd = lambda x="m": self.create_chart(x)
-        self.out_frame.to_chart_m.configure(command=cmnd)
+        self.__out_frame.to_chart_m.configure(command=cmnd)
 
     def change_frame(self, frame):
         """
@@ -52,23 +52,23 @@ class MainController:
         :param frame: the frame to switch to
         :return:
         """
-        self.current_frame.pack_forget()
-        self.current_frame = frame
-        self.current_frame.pack()
+        self.__current_frame.pack_forget()
+        self.__current_frame = frame
+        self.__current_frame.pack()
 
     def change_to_input(self):
         """
         Method changes current frame to start frame (input frame) and clears all data
         :return:
         """
-        self.current_frame.pack_forget()
-        self.current_frame = self.inp_frame
-        self.current_frame.pack()
-        self.out_frame.clear()
+        self.__current_frame.pack_forget()
+        self.__current_frame = self.__inp_frame
+        self.__current_frame.pack()
+        self.__out_frame.clear()
         # Left = c is specified
-        self.left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
+        self.__left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
         # Right = c is not specified
-        self.right_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
+        self.__right_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
 
     def validate_data(self, gui_comp):
         """
@@ -77,9 +77,9 @@ class MainController:
         :return:
         """
         # c is specified
-        is_valid_left = self.validator.validate(gui_comp.input_left.get_data())
+        is_valid_left = self.__validator.validate(gui_comp.input_left.get_data())
         # c is not specified
-        is_valid_right = self.validator.validate(gui_comp.input_right.get_data())
+        is_valid_right = self.__validator.validate(gui_comp.input_right.get_data())
         ans = 0
         if all((is_valid_right, is_valid_left)):
             # both widgets data are valid
@@ -102,20 +102,19 @@ class MainController:
         :return:
         """
         # Left panel (c is specified)
-        values = self.validator.comma_replace(gui_comp.input_left.get_data())
+        values = self.__validator.comma_replace(gui_comp.input_left.get_data())
         values = {key: float(value) for key, value in values.items()}
-        self.calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"])
-        self.calculator.calculate_statistical()
-        self.left_arrays = self.calculator.select.create_arrays(self.J, values["gamma"])
-        self.calculator.indicator.set_xrs({"xr": self.calculator.to_fixed(self.left_arrays["xr"]),
-                                           "xr_gamma": self.calculator.to_fixed(self.left_arrays["xr_gamma"])})
-
+        self.__calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"])
+        self.__calculator.calculate_statistical()
+        self.__left_arrays = self.__calculator.select.create_arrays(self.J, values["gamma"])
+        self.__calculator.indicator.set_xrs({"xr": self.__calculator.to_fixed(self.__left_arrays["xr"]),
+                                           "xr_gamma": self.__calculator.to_fixed(self.__left_arrays["xr_gamma"])})
 
         # set data to statistical indicators widget (c is specified) on output frame
-        self.out_frame.left_stat_ind.set_data(self.calculator.indicator.indicators)
-        self.calculator.calculate_analytical()
+        self.__out_frame.left_stat_ind.set_data(self.__calculator.indicator.indicators)
+        self.__calculator.calculate_analytical()
         # set data to analytical indicators widget on output frame
-        self.out_frame.analyt_ind.set_data(self.calculator.indicator.indicators)
+        self.__out_frame.analyt_ind.set_data(self.__calculator.indicator.indicators)
 
     def calculate_right_widget(self, gui_comp):
         """
@@ -124,16 +123,16 @@ class MainController:
         :return:
         """
         # Right panel (c is not specified)
-        values = self.validator.comma_replace(gui_comp.input_right.get_data())
+        values = self.__validator.comma_replace(gui_comp.input_right.get_data())
         values = {key: float(value) for key, value in values.items()}
-        self.calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"],
-                                   kc=values["kc"], gamma=values["gamma"])
-        self.calculator.calculate_statistical()
-        self.right_arrays = self.calculator.select.create_arrays(self.J, values["gamma"])
-        self.calculator.indicator.set_xrs({"xr": self.calculator.to_fixed(self.right_arrays["xr"]),
-                                           "xr_gamma": self.calculator.to_fixed(self.right_arrays["xr_gamma"])})
+        self.__calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"],
+                                     kc=values["kc"], gamma=values["gamma"])
+        self.__calculator.calculate_statistical()
+        self.__right_arrays = self.__calculator.select.create_arrays(self.J, values["gamma"])
+        self.__calculator.indicator.set_xrs({"xr": self.__calculator.to_fixed(self.__right_arrays["xr"]),
+                                           "xr_gamma": self.__calculator.to_fixed(self.__right_arrays["xr_gamma"])})
         # set data to statistical indicators widget (c is not specified) on output frame
-        self.out_frame.right_stat_ind.set_data(self.calculator.indicator.indicators)
+        self.__out_frame.right_stat_ind.set_data(self.__calculator.indicator.indicators)
 
     def calculate_data(self, ans, gui_comp, valid):
         """
@@ -156,7 +155,7 @@ class MainController:
             else:
                 # Right panel (c is not specified)
                 self.calculate_right_widget(gui_comp)
-        self.change_frame(self.out_frame)
+        self.change_frame(self.__out_frame)
 
     def create_chart(self, chart_type):
         """
@@ -164,7 +163,7 @@ class MainController:
         :param chart_type: type of chart
         :return:
         """
-        ChartWidget(self.root, (self.left_arrays[chart_type], self.right_arrays[chart_type]),
+        ChartWidget(self.__root, (self.__left_arrays[chart_type], self.__right_arrays[chart_type]),
                     ({"label": "c is specified"}, {"label": "c is not specified"}))
 
     def set_data(self, gui_comp):

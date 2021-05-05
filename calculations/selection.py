@@ -10,13 +10,13 @@ class Selection:
     selection = []
 
     def __init__(self, a, b, c, c_avg, kc, n):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.c_avg = c_avg
-        self.kc = kc
-        self.n = n
-        self.x_array = list()
+        self.__a = a
+        self.__b = b
+        self.__c = c
+        self.__c_avg = c_avg
+        self.__kc = kc
+        self.__n = n
+        self.__x_array = list()
 
     def generate_selection(self):
         """
@@ -28,24 +28,24 @@ class Selection:
         r1 = 0
         # Накопление x-ов в квадрате
         r2 = 0
-        if not self.c:
-            c1 = self.c_avg * (1 - math.sqrt(3) * self.kc)
-            c2 = self.c_avg * (1 + math.sqrt(3) * self.kc)
-        for i in range(self.n):
+        if not self.__c:
+            c1 = self.__c_avg * (1 - math.sqrt(3) * self.__kc)
+            c2 = self.__c_avg * (1 + math.sqrt(3) * self.__kc)
+        for i in range(self.__n):
             #  x между 0 и 1 (Равномерное распределение по алгоритму моделирования (7))
             random_value = random.uniform(0, 1)
             # Если c не задан точно
-            if not self.c:
-                self.c = c1 + (c2 - c1) * random.uniform(0, 1)
+            if not self.__c:
+                self.__c = c1 + (c2 - c1) * random.uniform(0, 1)
             temp = 0
-            if 0 < random_value <= (self.c - self.a) / (self.b - self.a):
-                temp = self.a + math.sqrt(random_value * (self.b - self.a) * (self.c - self.a))
-            elif (self.c - self.a) / (self.b - self.a) < random_value < 1:
-                temp = self.b - math.sqrt((1 - random_value) * (self.b - self.a) * (self.b - self.c))
+            if 0 < random_value <= (self.__c - self.__a) / (self.__b - self.__a):
+                temp = self.__a + math.sqrt(random_value * (self.__b - self.__a) * (self.__c - self.__a))
+            elif (self.__c - self.__a) / (self.__b - self.__a) < random_value < 1:
+                temp = self.__b - math.sqrt((1 - random_value) * (self.__b - self.__a) * (self.__b - self.__c))
             self.selection.append(temp)
             r1 += temp
             r2 += temp ** 2
-        r1 /= self.n
+        r1 /= self.__n
         return r1, r2
 
     def create_arrays(self, j, gamma):
@@ -56,19 +56,19 @@ class Selection:
         :return: all calculated arrays
         """
         # Шаг
-        lamb = (self.b - self.a) / j
+        lamb = (self.__b - self.__a) / j
 
         result = dict()
 
-        self.x_array.append(self.a)
+        self.__x_array.append(self.__a)
         # Содержит j подмассивов со значениями от X[j] до X[j+1]
         uzli = [[] for _ in range(j)]
 
         for i in range(j):
-            self.x_array.append(self.x_array[i] + lamb)
+            self.__x_array.append(self.__x_array[i] + lamb)
 
         for value in self.selection:
-            index = math.floor((value - self.a) / lamb)
+            index = math.floor((value - self.__a) / lamb)
             uzli[index].append(value)
 
         # Сортировка подмасивов (можно убрать)
@@ -85,10 +85,10 @@ class Selection:
         k = []
         for i in range(j):
             m.append(sum([counts[j] for j in range(i + 1)]))
-            m[i] /= self.n
+            m[i] /= self.__n
             k.append(1 - m[i])
         result.update({"uzli": uzli, "counts": counts, "m": m, "k": k})
-        result.update(self.define_xr_indicators(self.x_array, k, gamma, j))
+        result.update(self.define_xr_indicators(self.__x_array, k, gamma, j))
 
         return result
 

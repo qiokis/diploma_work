@@ -11,13 +11,13 @@ class Calculator:
     indicator = Indicators()
 
     def data_entry(self, a, b, c=None, c_avg=None, kc=None, gamma=None, n=10000):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.c_avg = c_avg
-        self.kc = kc
-        self.gamma = gamma
-        self.select = Selection(self.a, self.b, self.c, self.c_avg, self.kc, n)
+        self.__a = a
+        self.__b = b
+        self.__c = c
+        self.__c_avg = c_avg
+        self.__kc = kc
+        self.__gamma = gamma
+        self.select = Selection(self.__a, self.__b, self.__c, self.__c_avg, self.__kc, n)
         self.indicator.clear()
 
     def to_fixed(self, number, digits=4):
@@ -34,21 +34,21 @@ class Calculator:
         Method calculates and save analytical indicators for model
         :return:
         """
-        if self.c:
+        if self.__c:
             # Math expectation | Математическое ожидание
-            expected_value = self.to_fixed((self.a + self.b + self.c) / 3)
+            expected_value = self.to_fixed((self.__a + self.__b + self.__c) / 3)
             # Dispersion | Дисперсия
-            dispersion = self.to_fixed((self.a ** 2 + self.b ** 2 + self.c ** 2 - self.a * self.b
-                                        - self.a * self.c - self.b * self.c) / 18)
+            dispersion = self.to_fixed((self.__a ** 2 + self.__b ** 2 + self.__c ** 2 - self.__a * self.__b
+                                        - self.__a * self.__c - self.__b * self.__c) / 18)
             # Standard deviation | Стандартное отклонение
             deviation = self.to_fixed(
-                math.sqrt(2 * (self.a ** 2 + self.b ** 2 + self.c ** 2 - self.a
-                               * self.b - self.a * self.c - self.b * self.c)) / 6)
+                math.sqrt(2 * (self.__a ** 2 + self.__b ** 2 + self.__c ** 2 - self.__a
+                               * self.__b - self.__a * self.__c - self.__b * self.__c)) / 6)
             # Variation coefficient | Коэффициент вариации
             var_coef = self.to_fixed(deviation / expected_value)
             # X gamma | X гамма
-            x_gamma = self.to_fixed(self.a + math.sqrt((1 - self.gamma)
-                                                       * (self.b - self.a) * (self.c - self.a)))
+            x_gamma = self.to_fixed(self.__a + math.sqrt((1 - self.__gamma)
+                                                         * (self.__b - self.__a) * (self.__c - self.__a)))
             self.indicator.set_analytical(expected_value, dispersion, deviation, var_coef, x_gamma)
 
     def calculate_statistical(self):

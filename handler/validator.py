@@ -7,8 +7,8 @@ class Validator:
     """
 
     def __init__(self):
-        self.regex = r"^[-|+]?\d+$|^[-|+]?\d+[\.|\,]\d+$"
-        self.result = ""
+        self.__regex = r"^[-|+]?\d+$|^[-|+]?\d+[\.|\,]\d+$"
+        self.__result = ""
 
     def validate(self, values: dict):
         """
@@ -16,11 +16,11 @@ class Validator:
         :param values: data from gui
         :return: boolean result of validation
         """
-        self.result = ""
+        self.__result = ""
         for key, value in values.items():
-            if not re.match(self.regex, value):
-                self.result += f"Incorrect indicator {key}: {value}\n"
-        if self.result:
+            if not re.match(self.__regex, value):
+                self.__result += f"Incorrect indicator {key}: {value}\n"
+        if self.__result:
             return False
         return True
 
