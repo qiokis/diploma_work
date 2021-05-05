@@ -19,12 +19,10 @@ class Indicators:
     def set_statistical(self, math_exp, disp, stand_dev, conf_int):
         """
         Method save values to dict
-        :param xr_gamma: xr gamma
-        :param xr: xr
+        :param conf_int: confident interval
         :param math_exp: math expectation
         :param disp: dispersion
         :param stand_dev: standard deviation
-        :param delta: delta
         :return:
         """
         self.indicators["Statistical"]["Math expectation"] = math_exp
