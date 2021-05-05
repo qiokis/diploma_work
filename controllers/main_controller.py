@@ -166,5 +166,3 @@ class MainController:
         ChartWidget(self.__root, (self.__left_arrays[chart_type], self.__right_arrays[chart_type]),
                     ({"label": "c is specified"}, {"label": "c is not specified"}))
 
-    def set_data(self, gui_comp):
-        pass
