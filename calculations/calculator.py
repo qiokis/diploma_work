@@ -41,12 +41,14 @@ class Calculator:
             dispersion = self.to_fixed((self.a ** 2 + self.b ** 2 + self.c ** 2 - self.a * self.b
                                         - self.a * self.c - self.b * self.c) / 18)
             # Standard deviation | Стандартное отклонение
-            deviation = self.to_fixed(math.sqrt(2 * (self.a ** 2 + self.b ** 2 + self.c ** 2
-                                                     - self.a * self.b - self.a * self.c - self.b * self.c)) / 6)
+            deviation = self.to_fixed(
+                math.sqrt(2 * (self.a ** 2 + self.b ** 2 + self.c ** 2 - self.a
+                               * self.b - self.a * self.c - self.b * self.c)) / 6)
             # Variation coefficient | Коэффициент вариации
             var_coef = self.to_fixed(deviation / expected_value)
             # X gamma | X гамма
-            x_gamma = self.to_fixed(self.a + math.sqrt((1 - self.gamma) * (self.b - self.a) * (self.c - self.a)))
+            x_gamma = self.to_fixed(self.a + math.sqrt((1 - self.gamma)
+                                                       * (self.b - self.a) * (self.c - self.a)))
             self.indicator.set_analytical(expected_value, dispersion, deviation, var_coef, x_gamma)
 
     def calculate_statistical(self):

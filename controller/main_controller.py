@@ -47,11 +47,20 @@ class MainController:
         self.out_frame.to_chart_m.configure(command=cmnd)
 
     def change_frame(self, frame):
+        """
+        Method changes current frame
+        :param frame: the frame to switch to
+        :return:
+        """
         self.current_frame.pack_forget()
         self.current_frame = frame
         self.current_frame.pack()
 
     def change_to_input(self):
+        """
+        Method changes current frame to start frame (input frame) and clears all data
+        :return:
+        """
         self.current_frame.pack_forget()
         self.current_frame = self.inp_frame
         self.current_frame.pack()
@@ -127,7 +136,6 @@ class MainController:
         self.out_frame.right_stat_ind.set_data(self.calculator.indicator.indicators)
 
     def calculate_data(self, ans, gui_comp, valid):
-        # TODO можно ans не использовать
         """
         Method delegate calculations to Calculator and send them into gui
         :param valid: states of validation for both widgets
@@ -151,6 +159,11 @@ class MainController:
         self.change_frame(self.out_frame)
 
     def create_chart(self, chart_type):
+        """
+        Method creates charts
+        :param chart_type: type of chart
+        :return:
+        """
         ChartWidget(self.root, (self.left_arrays[chart_type], self.right_arrays[chart_type]),
                     ({"label": "c is specified"}, {"label": "c is not specified"}))
 

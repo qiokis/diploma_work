@@ -25,6 +25,11 @@ class Validator:
         return True
 
     def comma_replace(self, values: dict):
+        """
+        Method replace comma to dot
+        :param values:
+        :return:
+        """
         for key, value in values.items():
             if value.count(","):
                 values[key] = value.replace(",", ".")

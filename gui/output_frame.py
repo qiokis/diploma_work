@@ -39,12 +39,13 @@ class OutputFrame(tk.Frame):
         self.to_chart_m.pack(padx=5, pady=5, side=tk.LEFT)
 
     def clear(self):
+        """
+        Method clears data from fields
+        :return:
+        """
         self.left_stat_ind.clear()
         self.right_stat_ind.clear()
         self.analyt_ind.clear()
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    OutputFrame(root).pack()
-    root.mainloop()
+
 

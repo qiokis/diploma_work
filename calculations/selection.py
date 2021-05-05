@@ -49,6 +49,12 @@ class Selection:
         return r1, r2
 
     def create_arrays(self, j, gamma):
+        """
+        Method creates a additional arrays for main selection
+        :param j: quantity of intervals
+        :param gamma: gamma indicator
+        :return: all calculated arrays
+        """
         # Шаг
         lamb = (self.b - self.a) / j
 
@@ -87,6 +93,14 @@ class Selection:
         return result
 
     def define_xr_indicators(self, x_arr, k_arr, gamma, j):
+        """
+        Method calculates Xr and Xr gamma
+        :param x_arr: array in the range of a and b
+        :param k_arr: statistical array
+        :param gamma: gamma indicator
+        :param j: quantity of intervals
+        :return:
+        """
         xr = x_arr[0] + ((x_arr[j] - x_arr[0]) / j) * (0.5 + sum(k_arr[1:-1]))
         index = 0
         for key, value in enumerate(k_arr[1:-1]):

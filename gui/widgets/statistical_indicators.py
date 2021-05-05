@@ -41,6 +41,10 @@ class StatisticalIndicators(tk.LabelFrame):
         self.confidence_interval["text"] = values["Statistical"]["Conf int"]
 
     def clear(self):
+        """
+        Method clears indicators
+        :return:
+        """
         self.math_exp["text"] = ""
         self.xr["text"] = ""
         self.stand_dev["text"] = ""

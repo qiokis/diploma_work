@@ -42,6 +42,10 @@ class AnalyticalIndicators(tk.LabelFrame):
         self.gamma["text"] = values["Analytical"]["X gamma"]
 
     def clear(self):
+        """
+        Method clears indicators
+        :return:
+        """
         self.math_exp["text"] = ""
         self.dispersion["text"] = ""
         self.stand_dev["text"] = ""
