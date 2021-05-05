@@ -1,5 +1,5 @@
-from gui.input_frame import InputFrame
-from gui.output_frame import OutputFrame
+from gui.frames.input_frame import InputFrame
+from gui.frames.output_frame import OutputFrame
 from calculations.calculator import Calculator
 from handler.validator import Validator
 import options as o
