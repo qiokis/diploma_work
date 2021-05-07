@@ -55,8 +55,13 @@ class Calculator:
             # Variation coefficient | Коэффициент вариации
             var_coef = self.to_fixed(deviation / expected_value)
             # X gamma | X гамма
-            x_gamma = self.to_fixed(self.__a + math.sqrt((1 - self.__gamma)
-                                                         * (self.__b - self.__a) * (self.__c - self.__a)))
+            temp = ((self.__c - self.__a) / (self.__b - self.__a))
+            if temp <= self.__gamma < 1:
+                x_gamma = self.to_fixed(self.__a + math.sqrt(
+                    (1 - self.__gamma) * (self.__b - self.__a) * (self.__c - self.__a)))
+            elif 0 < self.__gamma < temp:
+                x_gamma = self.to_fixed(self.__b - math.sqrt(
+                    self.__gamma * (self.__b - self.__a) * (self.__b - self.__c)))
             self.indicator.set_analytical(expected_value, dispersion, deviation, var_coef, x_gamma)
 
     def calculate_statistical(self):
