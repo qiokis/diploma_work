@@ -23,5 +23,7 @@ class InputFrame(tk.Frame):
         self.input_right = InputWidget(self.__c_not_spec_frame, False)
         self.input_right.pack(padx=10, pady=10)
 
-        self.confirm = tk.Button(self, text="Calculate", width=o.FIELD_WIDTH)
-        self.confirm.pack(padx=5, pady=5)
+        self.confirm = tk.Button(self, text="Рассчитать", width=o.FIELD_WIDTH)
+        self.confirm.pack(padx=5, pady=5, side=tk.RIGHT)
+        self.options = tk.Button(self, text="Настройки выборки", width=o.FIELD_WIDTH)
+        self.options.pack(padx=5, pady=5)
