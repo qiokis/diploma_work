@@ -58,8 +58,14 @@ class MainController:
         self.__out_frame.to_chart_m.configure(command=cmnd)
 
     def setup_options(self):
-        self.J = int(self.options.j_field.get())
-        self.n = int(self.options.n_field.get())
+        try:
+            self.J = int(self.options.j_field.get())
+        except ValueError as e:
+            pass
+        try:
+            self.n = int(self.options.n_field.get())
+        except ValueError as e:
+            pass
         self.options.withdraw()
 
     def change_frame(self, frame):
