@@ -64,12 +64,11 @@ class Calculator:
                     self.__gamma * (self.__b - self.__a) * (self.__b - self.__c)))
             self.indicator.set_analytical(expected_value, dispersion, deviation, var_coef, x_gamma)
 
-    def calculate_statistical(self):
+    def calculate_statistical(self, n):
         """
         Method calculates and save statistical indicators for model
         :return:
         """
-        n = 10000
         # r1 - Математическое ожидание
         r1, r2 = self.select.generate_selection()
         r1 = self.to_fixed(r1)
