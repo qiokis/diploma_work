@@ -4,6 +4,7 @@ from calculations.calculator import Calculator
 from handler.validator import Validator
 import options as o
 from gui.widgets.chart_widget import ChartWidget
+from gui.widgets.select_options import SelectOptions
 
 from tkinter import messagebox as mb
 
@@ -14,14 +15,22 @@ class MainController:
     """
     # Количество интервалов
     J = 44
+    n = 10000
 
     def __init__(self, root):
 
         self.__root = root
         self.__root.title("Оценка ПНРС")
         self.__root.geometry(f"{o.WINDOW_WIDTH}x{o.WINDOWH_HEIGHT}")
+        self.__root.resizable(False, False)
         self.__calculator = Calculator()
         self.__validator = Validator()
+
+        # Настройки выборки
+        self.options = SelectOptions(self.__root)
+        self.options.withdraw()
+        self.options.confirm.configure(command=self.setup_options)
+        self.options.protocol("WM_DELETE_WINDOW", self.setup_options)
 
         # InputFrame
         self.__inp_frame = InputFrame(self.__root)
@@ -30,6 +39,7 @@ class MainController:
         self.__current_frame = self.__inp_frame
         cmnd = lambda x=self.__inp_frame: self.validate_data(x)
         self.__inp_frame.confirm.configure(command=cmnd)
+        self.__inp_frame.options.configure(command=self.options.deiconify)
 
         # Left = c is specified
         self.__left_arrays = {"uzli": [], "counts": [], "m": [], "k": []}
@@ -46,6 +56,11 @@ class MainController:
         self.__out_frame.to_chart_k.configure(command=cmnd)
         cmnd = lambda x="m": self.create_chart(x)
         self.__out_frame.to_chart_m.configure(command=cmnd)
+
+    def setup_options(self):
+        self.J = int(self.options.j_field.get())
+        self.n = int(self.options.n_field.get())
+        self.options.withdraw()
 
     def change_frame(self, frame):
         """
@@ -105,8 +120,8 @@ class MainController:
         # Left panel (c is specified)
         values = self.__validator.comma_replace(gui_comp.input_left.get_data())
         values = {key: float(value) for key, value in values.items()}
-        self.__calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"])
-        self.__calculator.calculate_statistical()
+        self.__calculator.data_entry(values["a"], values["b"], values["c"], gamma=values["gamma"], n=self.n)
+        self.__calculator.calculate_statistical(self.n)
         self.__left_arrays = self.__calculator.select.create_arrays(self.J, values["gamma"])
         self.__calculator.indicator.set_xrs({"xr": self.__calculator.to_fixed(self.__left_arrays["xr"]),
                                            "xr_gamma": self.__calculator.to_fixed(self.__left_arrays["xr_gamma"])})
@@ -127,8 +142,8 @@ class MainController:
         values = self.__validator.comma_replace(gui_comp.input_right.get_data())
         values = {key: float(value) for key, value in values.items()}
         self.__calculator.data_entry(values["a"], values["b"], c_avg=values["c_avg"],
-                                     kc=values["kc"], gamma=values["gamma"])
-        self.__calculator.calculate_statistical()
+                                     kc=values["kc"], gamma=values["gamma"], n=self.n)
+        self.__calculator.calculate_statistical(self.n)
         self.__right_arrays = self.__calculator.select.create_arrays(self.J, values["gamma"])
         self.__calculator.indicator.set_xrs({"xr": self.__calculator.to_fixed(self.__right_arrays["xr"]),
                                            "xr_gamma": self.__calculator.to_fixed(self.__right_arrays["xr_gamma"])})
