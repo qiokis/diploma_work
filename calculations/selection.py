@@ -108,5 +108,5 @@ class Selection:
                 index = key + 1
                 break
         xr_gamma = x_arr[index - 1] + ((gamma - k_arr[index - 1]) / (k_arr[index] - k_arr[index - 1])) * \
-                   (j / (x_arr[j] - x_arr[0]))
+                   ((x_arr[j] - x_arr[0]) / j)
         return {"xr": xr, "xr_gamma": xr_gamma}
