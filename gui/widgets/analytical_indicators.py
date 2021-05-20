@@ -25,7 +25,7 @@ class AnalyticalIndicators(tk.LabelFrame):
         self.__stand_dev.grid(row=11, column=0, padx=5, pady=5)
         self.__var_coef = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
         self.__var_coef.grid(row=11, column=1, padx=5, pady=5)
-        tk.Label(self, text="X гамма", width=self.width).grid(row=12, column=0, padx=5, pady=5)
+        tk.Label(self, text="X gamma", width=self.width).grid(row=12, column=0, padx=5, pady=5)
         self.__gamma = tk.Label(self, width=self.width, relief="sunken", bg="white", bd=1)
         self.__gamma.grid(row=13, column=0, padx=5, pady=5)
 
