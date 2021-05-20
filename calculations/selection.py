@@ -81,12 +81,13 @@ class Selection:
         for i, vals in enumerate(uzli):
             counts.append(len(vals))
 
-        m = []
+        m = [0]
         k = []
         for i in range(j):
             m.append(sum([counts[j] for j in range(i + 1)]))
             m[i] /= self.__n
             k.append(1 - m[i])
+        m[-1] /= self.__n
         result.update({"uzli": uzli, "counts": counts, "m": m, "k": k})
         result.update(self.define_xr_indicators(self.__x_array, k, gamma, j))
 
