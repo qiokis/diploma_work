@@ -12,4 +12,5 @@ class ChartWidget(tk.Frame):
         for i in range(len(selections)):
             self.__ax.plot([i for i in range(len(selections[i]))], selections[i], color=self.COLORS[i], **params[i])
         self.__ax.legend()
+        self.__ax.grid()
         plt.show()
