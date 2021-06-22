@@ -15,6 +15,7 @@ class MainController:
     """
     # Количество интервалов
     J = 44
+    # Количество элементов выборки
     n = 10000
 
     def __init__(self, root):
@@ -58,6 +59,10 @@ class MainController:
         self.__out_frame.to_chart_m.configure(command=cmnd)
 
     def setup_options(self):
+        """
+        Method gets values from options frame and hide frame
+        :return:
+        """
         try:
             self.J = int(self.options.j_field.get())
         except ValueError as e:

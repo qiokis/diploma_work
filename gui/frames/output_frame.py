@@ -5,6 +5,9 @@ from gui.widgets.statistical_indicators import StatisticalIndicators
 
 
 class OutputFrame(tk.Frame):
+    """
+    Frame responds for outputting calculated data
+    """
 
     def __init__(self, root):
         super().__init__(root)

@@ -3,6 +3,9 @@ import tkinter as tk
 
 
 class SelectOptions(tk.Toplevel):
+    """
+    Class responds for options frame
+    """
 
     def __init__(self, root):
         super().__init__(root)

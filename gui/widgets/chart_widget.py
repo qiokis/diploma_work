@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 
 
 class ChartWidget(tk.Frame):
+    """
+    Class responds for chart building
+    """
 
     COLORS = ["red", "blue"]
 
